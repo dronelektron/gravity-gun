@@ -1,0 +1,17 @@
+"Phrases"
+{
+    "Player not found"
+    {
+        "ru"    "Игрок не найден"
+    }
+
+    "Player captured"
+    {
+        "ru"    "Игрок {1} схвачен"
+    }
+
+    "Player released"
+    {
+        "ru"    "Игрок {1} отпущен"
+    }
+}

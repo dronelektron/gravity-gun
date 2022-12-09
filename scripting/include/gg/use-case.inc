@@ -1,0 +1,12 @@
+#if defined _gg_use_case_included
+ #endinput
+#endif
+#define _gg_use_case_included
+
+#define USER_ID_NOT_FOUND -1
+#define CLIENT_NOT_FOUND -1
+#define INVALID_CLIENT 0
+#define RETENTION_TIMER_INTERVAL 0.1
+#define RETENTION_TIMER_FLAGS (TIMER_REPEAT | TIMER_FLAG_NO_MAPCHANGE)
+#define VELOCITY_FACTOR 5.0
+#define DISTANCE_MIN 128.0

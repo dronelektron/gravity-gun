@@ -1,0 +1,19 @@
+"Phrases"
+{
+    "Player not found"
+    {
+        "en"    "Player is not found"
+    }
+
+    "Player captured"
+    {
+        "#format"   "{1:N}"
+        "en"    "Player {1} is captured"
+    }
+
+    "Player released"
+    {
+        "#format"   "{1:N}"
+        "en"    "Player {1} is released"
+    }
+}
