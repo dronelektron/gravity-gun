@@ -34,7 +34,7 @@ void UseCase_CapturePlayer(int client) {
     }
 
     int clientId = GetClientUserId(client);
-    float distance = Variable_DefaultDistanceEnabled() ? Variable_DefaultDistance() : UseCase_CalculateDistance(client, target);
+    float distance = UseCase_GetInitialDistance(client, target);
 
     Client_SetTarget(client, target);
     Client_SetDistance(client, distance);
@@ -111,6 +111,20 @@ void UseCase_ApplyForce(int client, int target) {
     SubtractVectors(targetDestination, targetPosition, velocity);
     ScaleVector(velocity, VELOCITY_FACTOR);
     TeleportEntity(target, NULL_VECTOR, NULL_VECTOR, velocity);
+}
+
+float UseCase_GetInitialDistance(int client, int target) {
+    if (Variable_DefaultDistanceEnabled()) {
+        float distance = Variable_DefaultDistance();
+
+        if (distance < DISTANCE_MIN) {
+            distance = DISTANCE_MIN;
+        }
+
+        return distance;
+    }
+
+    return UseCase_CalculateDistance(client, target);
 }
 
 float UseCase_CalculateDistance(int client, int target) {

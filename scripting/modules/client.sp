@@ -33,14 +33,16 @@ void Client_SetDistance(int client, float distance) {
     g_distance[client] = distance;
 }
 
-void Client_AddDistance(int client, float step) {
+void Client_IncreaseDistance(int client, float step) {
     g_distance[client] += step;
 }
 
-void Client_SubtractDistance(int client, float step) {
+void Client_DecreaseDistance(int client, float step) {
     float distance = g_distance[client] - step;
 
-    if (distance >= DISTANCE_MIN) {
-        g_distance[client] = distance;
+    if (distance < DISTANCE_MIN) {
+        distance = DISTANCE_MIN;
     }
+
+    g_distance[client] = distance;
 }
