@@ -26,6 +26,12 @@ void UseCase_CapturePlayer(int client) {
         return;
     }
 
+    if (UseCase_IsInvalidObserverMode(client)) {
+        MessagePrint_InvalidObserverMode(client);
+
+        return;
+    }
+
     int clientId = GetClientUserId(client);
     int targetId = GetClientUserId(target);
 
@@ -111,4 +117,10 @@ float UseCase_CalculateDistance(int client, int target) {
     GetClientAbsOrigin(target, targetPosition);
 
     return GetVectorDistance(clientPosition, targetPosition);
+}
+
+bool UseCase_IsInvalidObserverMode(int client) {
+    int observerMode = GetEntProp(client, Prop_Send, "m_iObserverMode");
+
+    return IsClientObserver(client) && observerMode == OBSERVER_MODE_FIRST_PERSON;
 }

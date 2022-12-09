@@ -5,6 +5,11 @@
         "en"    "Player is not found"
     }
 
+    "Invalid observer mode"
+    {
+        "en"    "You cannot grab a player in first person"
+    }
+
     "Player captured"
     {
         "#format"   "{1:N}"
