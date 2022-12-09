@@ -17,6 +17,14 @@ void UseCase_CapturePlayer(int client) {
         return;
     }
 
+    int owner = Client_GetOwner(target);
+
+    if (owner != CLIENT_NOT_FOUND) {
+        MessagePrint_PlayerAlreadyCaptured(client, target, owner);
+
+        return;
+    }
+
     int clientId = GetClientUserId(client);
     float distance = Variable_DefaultDistanceEnabled() ? Variable_DefaultDistance() : UseCase_CalculateDistance(client, target);
 

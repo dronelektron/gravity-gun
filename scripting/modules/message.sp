@@ -6,6 +6,10 @@ void MessagePrint_InvalidObserverMode(int client) {
     PrintToChat(client, "%s%t", PREFIX, "Invalid observer mode");
 }
 
+void MessagePrint_PlayerAlreadyCaptured(int client, int target, int owner) {
+    PrintToChat(client, "%s%t", PREFIX, "Player already captured", target, owner);
+}
+
 void Message_PlayerCaptured(int client, int target) {
     ShowActivity2(client, PREFIX, "%t", "Player captured", target);
     LogMessage("\"%L\" captured \"%L\"", client, target);
