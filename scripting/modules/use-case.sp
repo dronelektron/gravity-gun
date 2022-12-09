@@ -1,6 +1,10 @@
 static int g_targetId[MAXPLAYERS + 1];
 static float g_distance[MAXPLAYERS + 1];
 
+void UseCase_ResetTarget(int client) {
+    g_targetId[client] = USER_ID_NOT_FOUND;
+}
+
 void UseCase_AddDistance(int client, float step) {
     g_distance[client] += step;
 }
@@ -56,10 +60,6 @@ void UseCase_ReleasePlayer(int client) {
         UseCase_ResetTarget(client);
         Message_PlayerReleased(client, target);
     }
-}
-
-void UseCase_ResetTarget(int client) {
-    g_targetId[client] = USER_ID_NOT_FOUND;
 }
 
 public Action UseCaseTimer_PlayerRetention(Handle timer, int clientId) {
