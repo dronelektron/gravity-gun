@@ -23,6 +23,7 @@ public Plugin myinfo = {
 public void OnPluginStart() {
     Command_Create();
     Variable_Create();
+    HookEvent("dod_round_start", Event_RoundStart);
     LoadTranslations("gravity-gun.phrases");
     AutoExecConfig(true, "gravity-gun");
 }
@@ -33,4 +34,8 @@ public void OnClientConnected(int client) {
 
 public void OnClientDisconnect(int client) {
     UseCase_ReleasePlayer(client);
+}
+
+public void Event_RoundStart(Event event, const char[] name, bool dontBroadcast) {
+    UseCase_ReleaseAllPlayers();
 }

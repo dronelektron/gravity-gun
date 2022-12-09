@@ -34,6 +34,14 @@ void UseCase_CapturePlayer(int client) {
     Message_PlayerCaptured(client, target);
 }
 
+void UseCase_ReleaseAllPlayers() {
+    for (int client = 1; client <= MaxClients; client++) {
+        if (IsClientInGame(client)) {
+            UseCase_ReleasePlayer(client);
+        }
+    }
+}
+
 void UseCase_ReleasePlayer(int client) {
     int target = Client_GetTarget(client);
 
