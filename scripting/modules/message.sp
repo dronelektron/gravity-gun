@@ -14,6 +14,10 @@ void MessagePrint_YouCannotCaptureOwner(int client, int target) {
     PrintToChat(client, "%s%t", PREFIX, "You cannot capture owner", target);
 }
 
+void MessagePrint_DistanceChanged(int client, float distance) {
+    PrintToChat(client, "%s%t", PREFIX, "Distance changed", distance);
+}
+
 void Message_PlayerCaptured(int client, int target) {
     ShowActivity2(client, PREFIX, "%t", "Player captured", target);
     LogMessage("\"%L\" captured \"%L\"", client, target);

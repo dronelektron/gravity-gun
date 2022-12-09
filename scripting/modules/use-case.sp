@@ -141,6 +141,7 @@ void UseCase_IncreaseDistance(int client, float step) {
     float distance = Client_GetDistance(client) + step;
 
     Client_SetDistance(client, distance);
+    MessagePrint_DistanceChanged(client, distance);
 }
 
 void UseCase_DecreaseDistance(int client, float step) {
@@ -151,6 +152,7 @@ void UseCase_DecreaseDistance(int client, float step) {
     }
 
     Client_SetDistance(client, distance);
+    MessagePrint_DistanceChanged(client, distance);
 }
 
 bool UseCase_IsInvalidObserverMode(int client) {
