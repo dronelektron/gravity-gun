@@ -137,6 +137,22 @@ float UseCase_CalculateDistance(int client, int target) {
     return GetVectorDistance(clientPosition, targetPosition);
 }
 
+void UseCase_IncreaseDistance(int client, float step) {
+    float distance = Client_GetDistance(client) + step;
+
+    Client_SetDistance(client, distance);
+}
+
+void UseCase_DecreaseDistance(int client, float step) {
+    float distance = Client_GetDistance(client) - step;
+
+    if (distance < DISTANCE_MIN) {
+        distance = DISTANCE_MIN;
+    }
+
+    Client_SetDistance(client, distance);
+}
+
 bool UseCase_IsInvalidObserverMode(int client) {
     int observerMode = GetEntProp(client, Prop_Send, "m_iObserverMode");
 
