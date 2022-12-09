@@ -42,23 +42,23 @@ void UseCase_CapturePlayer(int client) {
     Message_PlayerCaptured(client, target);
 }
 
-void UseCase_ReleaseAllPlayers() {
+void UseCase_ReleaseAllTargets() {
     for (int client = 1; client <= MaxClients; client++) {
         if (IsClientInGame(client)) {
-            UseCase_ReleasePlayer(client);
+            UseCase_ReleaseTarget(client);
         }
     }
 }
 
-void UseCase_ReleaseOwner(int client) {
+void UseCase_ReleaseFromOwner(int client) {
     int owner = Client_GetOwner(client);
 
     if (owner != CLIENT_NOT_FOUND) {
-        UseCase_ReleasePlayer(owner);
+        UseCase_ReleaseTarget(owner);
     }
 }
 
-void UseCase_ReleasePlayer(int client) {
+void UseCase_ReleaseTarget(int client) {
     int target = Client_GetTarget(client);
 
     if (target != CLIENT_NOT_FOUND) {

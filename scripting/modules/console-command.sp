@@ -12,7 +12,7 @@ public Action Command_CapturePlayer(int client, int args) {
 }
 
 public Action Command_ReleasePlayer(int client, int args) {
-    UseCase_ReleasePlayer(client);
+    UseCase_ReleaseTarget(client);
 
     return Plugin_Handled;
 }
