@@ -5,6 +5,7 @@
 #include "gg/message"
 #include "gg/use-case"
 
+#include "modules/client.sp"
 #include "modules/console-command.sp"
 #include "modules/console-variable.sp"
 #include "modules/math.sp"
@@ -27,7 +28,7 @@ public void OnPluginStart() {
 }
 
 public void OnClientConnected(int client) {
-    UseCase_ResetTarget(client);
+    Client_Reset(client);
 }
 
 public void OnClientDisconnect(int client) {

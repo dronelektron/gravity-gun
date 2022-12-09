@@ -20,7 +20,7 @@ public Action Command_ReleasePlayer(int client, int args) {
 public Action Command_AddDistance(int client, int args) {
     float step = Command_GetDistanceStep(args);
 
-    UseCase_AddDistance(client, step);
+    Client_AddDistance(client, step);
 
     return Plugin_Handled;
 }
@@ -28,7 +28,7 @@ public Action Command_AddDistance(int client, int args) {
 public Action Command_SubtractDistance(int client, int args) {
     float step = Command_GetDistanceStep(args);
 
-    UseCase_SubtractDistance(client, step);
+    Client_SubtractDistance(client, step);
 
     return Plugin_Handled;
 }

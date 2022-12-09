@@ -1,22 +1,3 @@
-static int g_targetId[MAXPLAYERS + 1];
-static float g_distance[MAXPLAYERS + 1];
-
-void UseCase_ResetTarget(int client) {
-    g_targetId[client] = USER_ID_NOT_FOUND;
-}
-
-void UseCase_AddDistance(int client, float step) {
-    g_distance[client] += step;
-}
-
-void UseCase_SubtractDistance(int client, float step) {
-    float distance = g_distance[client] - step;
-
-    if (distance >= DISTANCE_MIN) {
-        g_distance[client] = distance;
-    }
-}
-
 void UseCase_CapturePlayer(int client) {
     if (!Variable_PluginEnabled()) {
         return;
@@ -37,28 +18,26 @@ void UseCase_CapturePlayer(int client) {
     }
 
     int clientId = GetClientUserId(client);
-    int targetId = GetClientUserId(target);
+    float distance = Variable_DefaultDistanceEnabled() ? Variable_DefaultDistance() : UseCase_CalculateDistance(client, target);
 
-    g_targetId[client] = targetId;
-
-    if (Variable_DefaultDistanceEnabled()) {
-        g_distance[client] = Variable_DefaultDistance();
-    } else {
-        g_distance[client] = UseCase_CalculateDistance(client, target);
-    }
-
+    Client_SetTarget(client, target);
+    Client_SetDistance(client, distance);
     CreateTimer(RETENTION_TIMER_INTERVAL, UseCaseTimer_PlayerRetention, clientId, RETENTION_TIMER_FLAGS);
     Message_PlayerCaptured(client, target);
 }
 
 void UseCase_ReleasePlayer(int client) {
-    int targetId = g_targetId[client];
+    int target = Client_GetTarget(client);
 
-    if (targetId != USER_ID_NOT_FOUND) {
-        int target = GetClientOfUserId(targetId);
-
-        UseCase_ResetTarget(client);
+    if (target != CLIENT_NOT_FOUND) {
+        Client_RemoveTarget(client, target);
         Message_PlayerReleased(client, target);
+    } else {
+        int owner = Client_GetOwner(client);
+
+        if (owner != CLIENT_NOT_FOUND) {
+            UseCase_ReleasePlayer(owner);
+        }
     }
 }
 
@@ -69,16 +48,15 @@ public Action UseCaseTimer_PlayerRetention(Handle timer, int clientId) {
         return Plugin_Stop;
     }
 
-    int targetId = g_targetId[client];
+    int target = Client_GetTarget(client);
 
-    if (targetId == USER_ID_NOT_FOUND) {
+    if (target == CLIENT_NOT_FOUND) {
         return Plugin_Stop;
     }
 
-    int target = GetClientOfUserId(targetId);
-
-    if (target == INVALID_CLIENT || !IsPlayerAlive(target) || !Variable_PluginEnabled()) {
-        UseCase_ResetTarget(client);
+    if (!IsPlayerAlive(target) || !Variable_PluginEnabled()) {
+        Client_RemoveTarget(client, target);
+        Message_PlayerReleased(client, target);
 
         return Plugin_Stop;
     }
@@ -97,7 +75,7 @@ void UseCase_ApplyForce(int client, int target) {
     float targetDestination[VECTOR_SIZE];
     float velocity[VECTOR_SIZE];
 
-    direction[X] = g_distance[client];
+    direction[X] = Client_GetDistance(client);
 
     GetClientEyePosition(client, clientEyePosition);
     GetClientEyeAngles(client, clientEyeAngles);
