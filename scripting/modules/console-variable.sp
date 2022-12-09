@@ -19,7 +19,13 @@ bool Variable_DefaultDistanceEnabled() {
 }
 
 float Variable_DefaultDistance() {
-    return g_defaultDistance.FloatValue;
+    float defaultDistance = g_defaultDistance.FloatValue;
+
+    if (defaultDistance < DISTANCE_MIN) {
+        defaultDistance = DISTANCE_MIN;
+    }
+
+    return defaultDistance;
 }
 
 float Variable_DefaultDistanceStep() {
