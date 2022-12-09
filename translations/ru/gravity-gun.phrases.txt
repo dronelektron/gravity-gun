@@ -1,0 +1,37 @@
+"Phrases"
+{
+    "Player not found"
+    {
+        "ru"    "Игрок не найден"
+    }
+
+    "Invalid observer mode"
+    {
+        "ru"    "Вы не можете схватить игрока от вида первого лица"
+    }
+
+    "Player already captured"
+    {
+        "ru"    "Игрок {1} уже схвачен игроком {2}"
+    }
+
+    "You cannot capture owner"
+    {
+        "ru"    "Вы не можете схватить игрока {1}, т.к. он схватил вас"
+    }
+
+    "Distance changed"
+    {
+        "ru"    "Расстояние изменено на {1}"
+    }
+
+    "Player captured"
+    {
+        "ru"    "Игрок {1} схвачен"
+    }
+
+    "Player released"
+    {
+        "ru"    "Игрок {1} отпущен"
+    }
+}

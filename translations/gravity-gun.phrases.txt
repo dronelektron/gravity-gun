@@ -1,0 +1,42 @@
+"Phrases"
+{
+    "Player not found"
+    {
+        "en"    "Player is not found"
+    }
+
+    "Invalid observer mode"
+    {
+        "en"    "You cannot grab a player in first person"
+    }
+
+    "Player already captured"
+    {
+        "#format"   "{1:N},{2:N}"
+        "en"    "Player {1} is already captured by player {2}"
+    }
+
+    "You cannot capture owner"
+    {
+        "#format"   "{1:N}"
+        "en"    "You cannot capture player {1} because he captured you"
+    }
+
+    "Distance changed"
+    {
+        "#format"   "{1:.2f}"
+        "en"    "Distance changed to {1}"
+    }
+
+    "Player captured"
+    {
+        "#format"   "{1:N}"
+        "en"    "Player {1} is captured"
+    }
+
+    "Player released"
+    {
+        "#format"   "{1:N}"
+        "en"    "Player {1} is released"
+    }
+}
