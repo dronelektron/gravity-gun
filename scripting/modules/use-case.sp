@@ -25,6 +25,14 @@ void UseCase_CapturePlayer(int client) {
         return;
     }
 
+    bool isClientCapturedByTarget = Client_GetTarget(target) == client;
+
+    if (isClientCapturedByTarget) {
+        MessagePrint_YouCannotCaptureOwner(client, target);
+
+        return;
+    }
+
     int clientId = GetClientUserId(client);
     float distance = Variable_DefaultDistanceEnabled() ? Variable_DefaultDistance() : UseCase_CalculateDistance(client, target);
 
@@ -42,18 +50,20 @@ void UseCase_ReleaseAllPlayers() {
     }
 }
 
+void UseCase_ReleaseOwner(int client) {
+    int owner = Client_GetOwner(client);
+
+    if (owner != CLIENT_NOT_FOUND) {
+        UseCase_ReleasePlayer(owner);
+    }
+}
+
 void UseCase_ReleasePlayer(int client) {
     int target = Client_GetTarget(client);
 
     if (target != CLIENT_NOT_FOUND) {
         Client_RemoveTarget(client, target);
         Message_PlayerReleased(client, target);
-    } else {
-        int owner = Client_GetOwner(client);
-
-        if (owner != CLIENT_NOT_FOUND) {
-            UseCase_ReleasePlayer(owner);
-        }
     }
 }
 

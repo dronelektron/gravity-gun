@@ -10,6 +10,10 @@ void MessagePrint_PlayerAlreadyCaptured(int client, int target, int owner) {
     PrintToChat(client, "%s%t", PREFIX, "Player already captured", target, owner);
 }
 
+void MessagePrint_YouCannotCaptureOwner(int client, int target) {
+    PrintToChat(client, "%s%t", PREFIX, "You cannot capture owner", target);
+}
+
 void Message_PlayerCaptured(int client, int target) {
     ShowActivity2(client, PREFIX, "%t", "Player captured", target);
     LogMessage("\"%L\" captured \"%L\"", client, target);

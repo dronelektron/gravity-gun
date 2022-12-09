@@ -34,6 +34,7 @@ public void OnClientConnected(int client) {
 
 public void OnClientDisconnect(int client) {
     UseCase_ReleasePlayer(client);
+    UseCase_ReleaseOwner(client);
 }
 
 public void Event_RoundStart(Event event, const char[] name, bool dontBroadcast) {
