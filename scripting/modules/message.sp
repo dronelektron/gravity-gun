@@ -19,11 +19,21 @@ void MessagePrint_DistanceChanged(int client, float distance) {
 }
 
 void Message_PlayerCaptured(int client, int target) {
-    ShowActivity2(client, PREFIX, "%t", "Player captured", target);
+    if (Variable_ShowActivity()) {
+        ShowActivity2(client, PREFIX, "%t", "Player captured", target);
+    } else {
+        PrintToChat(client, "%s%t", PREFIX, "Player captured", target);
+    }
+
     LogMessage("\"%L\" captured \"%L\"", client, target);
 }
 
 void Message_PlayerReleased(int client, int target) {
-    ShowActivity2(client, PREFIX, "%t", "Player released", target);
+    if (Variable_ShowActivity()) {
+        ShowActivity2(client, PREFIX, "%t", "Player released", target);
+    } else {
+        PrintToChat(client, "%s%t", PREFIX, "Player released", target);
+    }
+
     LogMessage("\"%L\" released \"%L\"", client, target);
 }
