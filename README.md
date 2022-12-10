@@ -17,6 +17,7 @@ Allows you to grab and move players
 * sm_gravitygun_default_distance_enable - Enable (1) or disable (0) default capture distance [default: "1"]
 * sm_gravitygun_default_distance - Default capture distance, must be at least 64.0 [default: "128.0"]
 * sm_gravitygun_default_distance_step - Default distance step for increase/decrease [default: "64.0"]
+* sm_gravitygun_show_activity - Show (1) or hide (0) admin activity for all players [default: "1"]
 
 ### Console Commands
 
