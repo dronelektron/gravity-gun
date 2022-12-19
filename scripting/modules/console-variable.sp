@@ -10,7 +10,7 @@ void Variable_Create() {
     g_defaultDistanceEnabled = CreateConVar("sm_gravitygun_default_distance_enable", "1", "Enable (1) or disable (0) default capture distance");
     g_defaultDistance = CreateConVar("sm_gravitygun_default_distance", "128.0", "Default capture distance, must be at least 64.0");
     g_defaultDistanceStep = CreateConVar("sm_gravitygun_default_distance_step", "64.0", "Default distance step for increase/decrease");
-    g_velocityFactor = CreateConVar("sm_gravitygun_velocity_factor", "3.0", "How fast to move a player");
+    g_velocityFactor = CreateConVar("sm_gravitygun_velocity_factor", "5.0", "How fast to move a player");
     g_showActivity = CreateConVar("sm_gravitygun_show_activity", "1", "Show (1) or hide (0) admin activity for all players");
 }
 
