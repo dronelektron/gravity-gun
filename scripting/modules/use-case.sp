@@ -102,6 +102,7 @@ void UseCase_ApplyForce(int client, int target) {
     float rotatedDirection[VECTOR_SIZE];
     float targetDestination[VECTOR_SIZE];
     float velocity[VECTOR_SIZE];
+    float velocityFactor = Variable_VelocityFactor();
 
     direction[X] = Client_GetDistance(client);
 
@@ -111,7 +112,7 @@ void UseCase_ApplyForce(int client, int target) {
     Math_RotateVector(direction, clientEyeAngles, rotatedDirection);
     AddVectors(clientEyePosition, rotatedDirection, targetDestination);
     SubtractVectors(targetDestination, targetPosition, velocity);
-    ScaleVector(velocity, VELOCITY_FACTOR);
+    ScaleVector(velocity, velocityFactor);
     TeleportEntity(target, NULL_VECTOR, NULL_VECTOR, velocity);
 }
 
