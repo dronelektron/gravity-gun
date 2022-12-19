@@ -38,6 +38,7 @@ void UseCase_CapturePlayer(int client) {
 
     Client_SetTarget(client, target);
     Client_SetDistance(client, distance);
+    UseCase_RemoveClientSpeedLimit(target);
     CreateTimer(RETENTION_TIMER_INTERVAL, UseCaseTimer_PlayerRetention, clientId, RETENTION_TIMER_FLAGS);
     Message_PlayerCaptured(client, target);
 }
@@ -63,6 +64,7 @@ void UseCase_ReleaseTarget(int client) {
 
     if (target != CLIENT_NOT_FOUND) {
         Client_RemoveTarget(client, target);
+        UseCase_RestoreClientSpeedLimit(target);
         Message_PlayerReleased(client, target);
     }
 }
@@ -159,4 +161,12 @@ bool UseCase_IsInvalidObserverMode(int client) {
     int observerMode = GetEntProp(client, Prop_Send, "m_iObserverMode");
 
     return IsClientObserver(client) && observerMode == OBSERVER_MODE_FIRST_PERSON;
+}
+
+void UseCase_RemoveClientSpeedLimit(int client) {
+    SetEntityMoveType(client, MOVETYPE_ISOMETRIC);
+}
+
+void UseCase_RestoreClientSpeedLimit(int client) {
+    SetEntityMoveType(client, MOVETYPE_WALK);
 }
