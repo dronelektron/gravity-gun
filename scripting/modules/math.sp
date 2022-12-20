@@ -1,22 +1,17 @@
-void Math_RotateVector(const float vector[VECTOR_SIZE], const float degAngles[VECTOR_SIZE], float result[VECTOR_SIZE]) {
-    float radAngles[VECTOR_SIZE];
+void Math_RotateVector(const float vector[VECTOR_SIZE], float pitchDeg, float yawDeg, float result[VECTOR_SIZE]) {
     float rotationMatrix[VECTOR_SIZE][VECTOR_SIZE];
+    float pitchRad = DegToRad(pitchDeg);
+    float yawRad = DegToRad(yawDeg);
 
-    Math_DegreesToRadiansVector(degAngles, radAngles);
-    Math_GetRotationMatrix(radAngles, rotationMatrix);
+    Math_GetRotationMatrix(pitchRad, yawRad, rotationMatrix);
     Math_MultiplyMatrixByVector(rotationMatrix, vector, result);
 }
 
-void Math_DegreesToRadiansVector(const float degAngles[VECTOR_SIZE], float radAngles[VECTOR_SIZE]) {
-    radAngles[PITCH] = DegToRad(degAngles[PITCH]);
-    radAngles[YAW] = DegToRad(degAngles[YAW]);
-}
-
-void Math_GetRotationMatrix(const float angles[VECTOR_SIZE], float matrix[VECTOR_SIZE][VECTOR_SIZE]) {
-    float cosBeta = Cosine(angles[PITCH]);
-    float sinBeta = Sine(angles[PITCH]);
-    float cosAlpha = Cosine(angles[YAW]);
-    float sinAlpha = Sine(angles[YAW]);
+void Math_GetRotationMatrix(float pitchRad, float yawRad, float matrix[VECTOR_SIZE][VECTOR_SIZE]) {
+    float cosBeta = Cosine(pitchRad);
+    float sinBeta = Sine(pitchRad);
+    float cosAlpha = Cosine(yawRad);
+    float sinAlpha = Sine(yawRad);
 
     matrix[0][0] = cosAlpha * cosBeta;
     matrix[0][1] = cosAlpha * sinBeta - sinAlpha;

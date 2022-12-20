@@ -109,7 +109,7 @@ void UseCase_ApplyForce(int client, int target) {
     GetClientEyePosition(client, clientEyePosition);
     GetClientEyeAngles(client, clientEyeAngles);
     GetClientAbsOrigin(target, targetPosition);
-    Math_RotateVector(direction, clientEyeAngles, rotatedDirection);
+    Math_RotateVector(direction, clientEyeAngles[PITCH], clientEyeAngles[YAW], rotatedDirection);
     AddVectors(clientEyePosition, rotatedDirection, targetDestination);
     SubtractVectors(targetDestination, targetPosition, velocity);
     ScaleVector(velocity, velocityFactor);
