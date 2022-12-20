@@ -7,6 +7,5 @@
 
 #define PITCH 0
 #define YAW 1
-#define ROLL 2
 
 #define X 0
