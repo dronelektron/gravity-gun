@@ -22,6 +22,11 @@
         "en"    "You cannot capture player {1} because he captured you"
     }
 
+    "No player to throw"
+    {
+        "en"    "Grab the player first to throw them"
+    }
+
     "Distance changed"
     {
         "#format"   "{1:.2f}"
@@ -38,5 +43,11 @@
     {
         "#format"   "{1:N}"
         "en"    "Player {1} is released"
+    }
+
+    "Player thrown"
+    {
+        "#format"   "{1:N},{2:.2f}"
+        "en"    "Player {1} is thrown at a speed of {2} u/s"
     }
 }

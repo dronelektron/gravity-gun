@@ -1,6 +1,7 @@
 void Command_Create() {
     RegAdminCmd("+sm_gravitygun_grab", Command_CapturePlayer, ADMFLAG_GENERIC);
     RegAdminCmd("-sm_gravitygun_grab", Command_ReleasePlayer, ADMFLAG_GENERIC);
+    RegAdminCmd("sm_gravitygun_throw", Command_ThrowPlayer, ADMFLAG_GENERIC);
     RegAdminCmd("sm_gravitygun_distance_increase", Command_IncreaseDistance, ADMFLAG_GENERIC);
     RegAdminCmd("sm_gravitygun_distance_decrease", Command_DecreaseDistance, ADMFLAG_GENERIC);
 }
@@ -13,6 +14,14 @@ public Action Command_CapturePlayer(int client, int args) {
 
 public Action Command_ReleasePlayer(int client, int args) {
     UseCase_ReleaseTarget(client);
+
+    return Plugin_Handled;
+}
+
+public Action Command_ThrowPlayer(int client, int args) {
+    float velocity = args == 0 ? Variable_DefaultThrowVelocity() : GetCmdArgFloat(1);
+
+    UseCase_ThrowPlayer(client, velocity);
 
     return Plugin_Handled;
 }
