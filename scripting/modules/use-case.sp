@@ -69,6 +69,23 @@ void UseCase_ReleaseTarget(int client) {
     }
 }
 
+void UseCase_ThrowPlayer(int client, float velocity) {
+    int target = Client_GetTarget(client);
+
+    if (target == CLIENT_NOT_FOUND) {
+        MessagePrint_NoPlayerToThrow(client);
+
+        return;
+    }
+
+    int targetId = GetClientUserId(target);
+
+    Client_RemoveTarget(client, target);
+    CreateTimer(FLIGHT_TIMER_INTERVAL, UseCaseTimer_PlayerFlight, targetId, FLIGHT_TIMER_FLAGS);
+    UseCase_ApplyForceOnce(client, target, velocity);
+    Message_PlayerThrown(client, target, velocity);
+}
+
 public Action UseCaseTimer_PlayerRetention(Handle timer, int clientId) {
     int client = GetClientOfUserId(clientId);
 
@@ -94,6 +111,30 @@ public Action UseCaseTimer_PlayerRetention(Handle timer, int clientId) {
     return Plugin_Continue;
 }
 
+public Action UseCaseTimer_PlayerFlight(Handle timer, int targetId) {
+    int target = GetClientOfUserId(targetId);
+
+    if (target == INVALID_CLIENT) {
+        return Plugin_Stop;
+    }
+
+    int groundEntity = GetEntPropEnt(target, Prop_Send, "m_hGroundEntity");
+
+    if (groundEntity != ENTITY_NOT_FOUND) {
+        UseCase_RestoreClientSpeedLimit(target);
+
+        return Plugin_Stop;
+    }
+
+    int owner = Client_GetOwner(target);
+
+    if (owner != CLIENT_NOT_FOUND || !IsPlayerAlive(target)) {
+        return Plugin_Stop;
+    }
+
+    return Plugin_Continue;
+}
+
 void UseCase_ApplyForce(int client, int target) {
     float clientEyePosition[VECTOR_SIZE];
     float clientEyeAngles[VECTOR_SIZE];
@@ -114,6 +155,16 @@ void UseCase_ApplyForce(int client, int target) {
     SubtractVectors(targetDestination, targetPosition, velocity);
     ScaleVector(velocity, velocityFactor);
     TeleportEntity(target, NULL_VECTOR, NULL_VECTOR, velocity);
+}
+
+void UseCase_ApplyForceOnce(int client, int target, float velocity) {
+    float eyeAngles[VECTOR_SIZE];
+    float direction[VECTOR_SIZE];
+
+    GetClientEyeAngles(client, eyeAngles);
+    GetAngleVectors(eyeAngles, direction, NULL_VECTOR, NULL_VECTOR);
+    ScaleVector(direction, velocity);
+    TeleportEntity(target, NULL_VECTOR, NULL_VECTOR, direction);
 }
 
 float UseCase_GetInitialDistance(int client, int target) {

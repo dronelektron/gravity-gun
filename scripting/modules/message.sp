@@ -14,6 +14,10 @@ void MessagePrint_YouCannotCaptureOwner(int client, int target) {
     PrintToChat(client, "%s%t", PREFIX, "You cannot capture owner", target);
 }
 
+void MessagePrint_NoPlayerToThrow(int client) {
+    PrintToChat(client, "%s%t", PREFIX, "No player to throw");
+}
+
 void MessagePrint_DistanceChanged(int client, float distance) {
     PrintToChat(client, "%s%t", PREFIX, "Distance changed", distance);
 }
@@ -36,4 +40,14 @@ void Message_PlayerReleased(int client, int target) {
     }
 
     LogMessage("\"%L\" released \"%L\"", client, target);
+}
+
+void Message_PlayerThrown(int client, int target, float velocity) {
+    if (Variable_ShowActivity()) {
+        ShowActivity2(client, PREFIX, "%t", "Player thrown", target, velocity);
+    } else {
+        PrintToChat(client, "%s%t", PREFIX, "Player thrown", target, velocity);
+    }
+
+    LogMessage("\"%L\" threw \"%L\" at a speed of %.2f u/s", client, target, velocity);
 }
