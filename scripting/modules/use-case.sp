@@ -118,17 +118,17 @@ public Action UseCaseTimer_PlayerFlight(Handle timer, int targetId) {
         return Plugin_Stop;
     }
 
+    int owner = Client_GetOwner(target);
+
+    if (owner != CLIENT_NOT_FOUND || !IsPlayerAlive(target)) {
+        return Plugin_Stop;
+    }
+
     int groundEntity = GetEntPropEnt(target, Prop_Send, "m_hGroundEntity");
 
     if (groundEntity != ENTITY_NOT_FOUND) {
         UseCase_RestoreClientSpeedLimit(target);
 
-        return Plugin_Stop;
-    }
-
-    int owner = Client_GetOwner(target);
-
-    if (owner != CLIENT_NOT_FOUND || !IsPlayerAlive(target)) {
         return Plugin_Stop;
     }
 
