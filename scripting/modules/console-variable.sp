@@ -4,6 +4,9 @@ static ConVar g_defaultDistance = null;
 static ConVar g_defaultDistanceStep = null;
 static ConVar g_defaultThrowVelocity = null;
 static ConVar g_velocityFactor = null;
+static ConVar g_traceMode = null;
+static ConVar g_coneAngle = null;
+static ConVar g_coneDistance = null;
 static ConVar g_showActivity = null;
 
 void Variable_Create() {
@@ -13,6 +16,9 @@ void Variable_Create() {
     g_defaultDistanceStep = CreateConVar("sm_gravitygun_default_distance_step", "64.0", "Default distance step for increase/decrease");
     g_defaultThrowVelocity = CreateConVar("sm_gravitygun_default_throw_velocity", "1000.0", "Default throw velocity");
     g_velocityFactor = CreateConVar("sm_gravitygun_velocity_factor", "5.0", "How fast to move a player");
+    g_traceMode = CreateConVar("sm_gravitygun_trace_mode", "1", "Trace mode (0 - line, 1 - cone)");
+    g_coneAngle = CreateConVar("sm_gravitygun_cone_angle", "15.0", "Cone angle (in degrees)");
+    g_coneDistance = CreateConVar("sm_gravitygun_cone_distance", "2048.0", "Cone distance");
     g_showActivity = CreateConVar("sm_gravitygun_show_activity", "1", "Show (1) or hide (0) admin activity for all players");
 }
 
@@ -38,6 +44,18 @@ float Variable_DefaultThrowVelocity() {
 
 float Variable_VelocityFactor() {
     return g_velocityFactor.FloatValue;
+}
+
+int Variable_TraceMode() {
+    return g_traceMode.IntValue;
+}
+
+float Variable_ConeAngle() {
+    return g_coneAngle.FloatValue;
+}
+
+float Variable_ConeDistance() {
+    return g_coneDistance.FloatValue;
 }
 
 bool Variable_ShowActivity() {

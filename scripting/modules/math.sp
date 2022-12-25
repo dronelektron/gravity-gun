@@ -1,35 +1,55 @@
-void Math_RotateVector(const float vector[VECTOR_SIZE], float pitchDeg, float yawDeg, float result[VECTOR_SIZE]) {
-    float rotationMatrix[VECTOR_SIZE][VECTOR_SIZE];
-    float pitchRad = DegToRad(pitchDeg);
-    float yawRad = DegToRad(yawDeg);
+void Math_CalculateVelocityToDestination(int client, int target, float distance, float velocityFactor, float velocity[VECTOR_SIZE]) {
+    float clientEyePosition[VECTOR_SIZE];
+    float clientEyeAngles[VECTOR_SIZE];
+    float clientDirection[VECTOR_SIZE];
+    float targetPosition[VECTOR_SIZE];
+    float targetDestination[VECTOR_SIZE];
 
-    Math_GetRotationMatrix(pitchRad, yawRad, rotationMatrix);
-    Math_MultiplyMatrixByVector(rotationMatrix, vector, result);
+    GetClientEyePosition(client, clientEyePosition);
+    GetClientEyeAngles(client, clientEyeAngles);
+    GetClientAbsOrigin(target, targetPosition);
+    GetAngleVectors(clientEyeAngles, clientDirection, NULL_VECTOR, NULL_VECTOR);
+    ScaleVector(clientDirection, distance);
+    AddVectors(clientEyePosition, clientDirection, targetDestination);
+    SubtractVectors(targetDestination, targetPosition, velocity);
+    ScaleVector(velocity, velocityFactor);
 }
 
-void Math_GetRotationMatrix(float pitchRad, float yawRad, float matrix[VECTOR_SIZE][VECTOR_SIZE]) {
-    float cosBeta = Cosine(pitchRad);
-    float sinBeta = Sine(pitchRad);
-    float cosAlpha = Cosine(yawRad);
-    float sinAlpha = Sine(yawRad);
+void Math_CalculateThrowDirection(int client, float velocity, float direction[VECTOR_SIZE]) {
+    float eyeAngles[VECTOR_SIZE];
 
-    matrix[0][0] = cosAlpha * cosBeta;
-    matrix[0][1] = cosAlpha * sinBeta - sinAlpha;
-    matrix[0][2] = cosAlpha * sinBeta + sinAlpha;
-    matrix[1][0] = sinAlpha * cosBeta;
-    matrix[1][1] = sinAlpha * sinBeta + cosAlpha;
-    matrix[1][2] = sinAlpha * sinBeta - cosAlpha;
-    matrix[2][0] = -sinBeta;
-    matrix[2][1] = cosBeta;
-    matrix[2][2] = cosBeta;
+    GetClientEyeAngles(client, eyeAngles);
+    GetAngleVectors(eyeAngles, direction, NULL_VECTOR, NULL_VECTOR);
+    ScaleVector(direction, velocity);
 }
 
-void Math_MultiplyMatrixByVector(const float matrix[VECTOR_SIZE][VECTOR_SIZE], const float vector[VECTOR_SIZE], float result[VECTOR_SIZE]) {
-    for (int i = 0; i < VECTOR_SIZE; i++) {
-        result[i] = 0.0;
+float Math_CalculateDistance(int client, int target) {
+    float clientPosition[VECTOR_SIZE];
+    float targetPosition[VECTOR_SIZE];
 
-        for (int j = 0; j < VECTOR_SIZE; j++) {
-            result[i] += matrix[i][j] * vector[j];
-        }
-    }
+    GetClientAbsOrigin(client, clientPosition);
+    GetClientAbsOrigin(target, targetPosition);
+
+    return GetVectorDistance(clientPosition, targetPosition);
+}
+
+float Math_CalculateAngleToCone(int client, int target) {
+    float clientEyePosition[VECTOR_SIZE];
+    float clientEyeAngles[VECTOR_SIZE];
+    float clientDirection[VECTOR_SIZE];
+    float targetEyePosition[VECTOR_SIZE];
+    float targetDirection[VECTOR_SIZE];
+
+    GetClientEyePosition(client, clientEyePosition);
+    GetClientEyeAngles(client, clientEyeAngles);
+    GetClientEyePosition(target, targetEyePosition);
+    GetAngleVectors(clientEyeAngles, clientDirection, NULL_VECTOR, NULL_VECTOR);
+    SubtractVectors(targetEyePosition, clientEyePosition, targetDirection);
+    NormalizeVector(targetDirection, targetDirection);
+
+    float dotProduct = GetVectorDotProduct(targetDirection, clientDirection);
+    float angleRad = ArcCosine(dotProduct);
+    float angleDeg = RadToDeg(angleRad);
+
+    return angleDeg;
 }
