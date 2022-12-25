@@ -3,7 +3,7 @@ void UseCase_CapturePlayer(int client) {
         return;
     }
 
-    int target = GetClientAimTarget(client);
+    int target = UseCase_TraceTarget(client);
 
     if (target == CLIENT_NOT_FOUND) {
         MessagePrint_PlayerNotFound(client);
@@ -33,6 +33,12 @@ void UseCase_CapturePlayer(int client) {
         return;
     }
 
+    if (!CanUserTarget(client, target)) {
+        MessagePrint_TargetHasImmunity(client, target);
+
+        return;
+    }
+
     int clientId = GetClientUserId(client);
     float distance = UseCase_GetInitialDistance(client, target);
 
@@ -41,6 +47,37 @@ void UseCase_CapturePlayer(int client) {
     UseCase_RemoveClientSpeedLimit(target);
     CreateTimer(RETENTION_TIMER_INTERVAL, UseCaseTimer_PlayerRetention, clientId, RETENTION_TIMER_FLAGS);
     Message_PlayerCaptured(client, target);
+}
+
+int UseCase_TraceTarget(int client) {
+    if (Variable_TraceMode() == TRACE_MODE_LINE) {
+        return GetClientAimTarget(client);
+    }
+
+    return UseCase_FindNearestTargetInCone(client);
+}
+
+int UseCase_FindNearestTargetInCone(int client) {
+    int target = CLIENT_NOT_FOUND;
+    float targetAngle = 180.0;
+    float coneAngle = Variable_ConeAngle();
+    float coneDistance = Variable_ConeDistance();
+
+    for (int i = 1; i <= MaxClients; i++) {
+        if (!IsClientInGame(i) || !IsPlayerAlive(i) || client == i) {
+            continue;
+        }
+
+        float angle = Math_CalculateAngleToCone(client, i);
+        float distance = Math_CalculateDistance(client, i);
+
+        if (angle <= coneAngle && distance < coneDistance && angle < targetAngle) {
+            target = i;
+            targetAngle = angle;
+        }
+    }
+
+    return target;
 }
 
 void UseCase_ReleaseAllTargets() {
@@ -69,7 +106,7 @@ void UseCase_ReleaseTarget(int client) {
     }
 }
 
-void UseCase_ThrowPlayer(int client, float velocity) {
+void UseCase_ThrowPlayer(int client, float speed) {
     int target = Client_GetTarget(client);
 
     if (target == CLIENT_NOT_FOUND) {
@@ -82,8 +119,8 @@ void UseCase_ThrowPlayer(int client, float velocity) {
 
     Client_RemoveTarget(client, target);
     CreateTimer(FLIGHT_TIMER_INTERVAL, UseCaseTimer_PlayerFlight, targetId, FLIGHT_TIMER_FLAGS);
-    UseCase_ApplyForceOnce(client, target, velocity);
-    Message_PlayerThrown(client, target, velocity);
+    UseCase_ApplyForceOnce(client, target, speed);
+    Message_PlayerThrown(client, target, speed);
 }
 
 public Action UseCaseTimer_PlayerRetention(Handle timer, int clientId) {
@@ -136,40 +173,24 @@ public Action UseCaseTimer_PlayerFlight(Handle timer, int targetId) {
 }
 
 void UseCase_ApplyForce(int client, int target) {
-    float clientEyePosition[VECTOR_SIZE];
-    float clientEyeAngles[VECTOR_SIZE];
-    float targetPosition[VECTOR_SIZE];
-    float direction[VECTOR_SIZE];
-    float rotatedDirection[VECTOR_SIZE];
-    float targetDestination[VECTOR_SIZE];
+    float distance = Client_GetDistance(client);
+    float speedFactor = Variable_SpeedFactor();
     float velocity[VECTOR_SIZE];
-    float velocityFactor = Variable_VelocityFactor();
 
-    direction[X] = Client_GetDistance(client);
-
-    GetClientEyePosition(client, clientEyePosition);
-    GetClientEyeAngles(client, clientEyeAngles);
-    GetClientAbsOrigin(target, targetPosition);
-    Math_RotateVector(direction, clientEyeAngles[PITCH], clientEyeAngles[YAW], rotatedDirection);
-    AddVectors(clientEyePosition, rotatedDirection, targetDestination);
-    SubtractVectors(targetDestination, targetPosition, velocity);
-    ScaleVector(velocity, velocityFactor);
+    Math_CalculateVelocityToDestination(client, target, distance, speedFactor, velocity);
     TeleportEntity(target, NULL_VECTOR, NULL_VECTOR, velocity);
 }
 
-void UseCase_ApplyForceOnce(int client, int target, float velocity) {
-    float eyeAngles[VECTOR_SIZE];
+void UseCase_ApplyForceOnce(int client, int target, float speed) {
     float direction[VECTOR_SIZE];
 
-    GetClientEyeAngles(client, eyeAngles);
-    GetAngleVectors(eyeAngles, direction, NULL_VECTOR, NULL_VECTOR);
-    ScaleVector(direction, velocity);
+    Math_CalculateThrowDirection(client, speed, direction);
     TeleportEntity(target, NULL_VECTOR, NULL_VECTOR, direction);
 }
 
 float UseCase_GetInitialDistance(int client, int target) {
-    if (Variable_DefaultDistanceEnabled()) {
-        float distance = Variable_DefaultDistance();
+    if (Variable_CaptureMode() == CAPTURE_MODE_FIXED) {
+        float distance = Variable_CaptureDistance();
 
         if (distance < DISTANCE_MIN) {
             distance = DISTANCE_MIN;
@@ -178,17 +199,7 @@ float UseCase_GetInitialDistance(int client, int target) {
         return distance;
     }
 
-    return UseCase_CalculateDistance(client, target);
-}
-
-float UseCase_CalculateDistance(int client, int target) {
-    float clientPosition[VECTOR_SIZE];
-    float targetPosition[VECTOR_SIZE];
-
-    GetClientAbsOrigin(client, clientPosition);
-    GetClientAbsOrigin(target, targetPosition);
-
-    return GetVectorDistance(clientPosition, targetPosition);
+    return Math_CalculateDistance(client, target);
 }
 
 void UseCase_IncreaseDistance(int client, float step) {
