@@ -1,6 +1,6 @@
 # Gravity gun
 
-Allows you to grab and move players
+Allows you to grab, move and throw players
 
 ### Supported Games
 
