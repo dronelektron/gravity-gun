@@ -16,7 +16,7 @@ public Plugin myinfo = {
     name = "Gravity gun",
     author = "Dron-elektron",
     description = "Allows you to grab, move and throw players",
-    version = "1.3.0",
+    version = "1.4.0",
     url = "https://github.com/dronelektron/gravity-gun"
 };
 
