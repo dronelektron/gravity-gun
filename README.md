@@ -14,8 +14,8 @@ Allows you to grab, move and throw players
 ### Console Variables
 
 * sm_gravitygun_enable - Enable (1) or disable (0) plugin [default: "1"]
-* sm_gravitygun_capture_mode - Capture mode (0 - fixed distance, 1 - dynamic distance) [default: "1"]
-* sm_gravitygun_capture_distance - Fixed capture distance, must be at least 64.0 [default: "128.0"]
+* sm_gravitygun_capture_mode - Capture mode (0 - default distance, 1 - dynamic distance) [default: "1"]
+* sm_gravitygun_capture_distance - Default capture distance [default: "128.0"]
 * sm_gravitygun_capture_distance_step - Default capture distance step for increase/decrease [default: "64.0"]
 * sm_gravitygun_throw_speed - Default throw speed [default: "1000.0"]
 * sm_gravitygun_speed_factor - How fast to move a player [default: "5.0"]

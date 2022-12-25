@@ -11,8 +11,8 @@ static ConVar g_showActivity = null;
 
 void Variable_Create() {
     g_pluginEnabled = CreateConVar("sm_gravitygun_enable", "1", "Enable (1) or disable (0) plugin");
-    g_captureMode = CreateConVar("sm_gravitygun_capture_mode", "1", "Capture mode (0 - fixed distance, 1 - dynamic distance)");
-    g_captureDistance = CreateConVar("sm_gravitygun_capture_distance", "128.0", "Fixed capture distance, must be at least 64.0");
+    g_captureMode = CreateConVar("sm_gravitygun_capture_mode", "1", "Capture mode (0 - default distance, 1 - dynamic distance)");
+    g_captureDistance = CreateConVar("sm_gravitygun_capture_distance", "128.0", "Default capture distance");
     g_captureDistanceStep = CreateConVar("sm_gravitygun_capture_distance_step", "64.0", "Default capture distance step for increase/decrease");
     g_throwSpeed = CreateConVar("sm_gravitygun_throw_speed", "1000.0", "Default throw speed");
     g_speedFactor = CreateConVar("sm_gravitygun_speed_factor", "5.0", "How fast to move a player");
