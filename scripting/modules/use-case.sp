@@ -183,8 +183,8 @@ void UseCase_ApplyForceOnce(int client, int target, float speed) {
 }
 
 float UseCase_GetInitialDistance(int client, int target) {
-    if (Variable_DefaultDistanceEnabled()) {
-        float distance = Variable_DefaultDistance();
+    if (Variable_CaptureMode() == CAPTURE_MODE_FIXED) {
+        float distance = Variable_CaptureDistance();
 
         if (distance < DISTANCE_MIN) {
             distance = DISTANCE_MIN;

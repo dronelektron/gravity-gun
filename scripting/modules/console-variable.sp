@@ -1,8 +1,8 @@
 static ConVar g_pluginEnabled = null;
-static ConVar g_defaultDistanceEnabled = null;
-static ConVar g_defaultDistance = null;
-static ConVar g_defaultDistanceStep = null;
-static ConVar g_defaultThrowSpeed = null;
+static ConVar g_captureMode = null;
+static ConVar g_captureDistance = null;
+static ConVar g_captureDistanceStep = null;
+static ConVar g_throwSpeed = null;
 static ConVar g_speedFactor = null;
 static ConVar g_traceMode = null;
 static ConVar g_coneAngle = null;
@@ -11,10 +11,10 @@ static ConVar g_showActivity = null;
 
 void Variable_Create() {
     g_pluginEnabled = CreateConVar("sm_gravitygun_enable", "1", "Enable (1) or disable (0) plugin");
-    g_defaultDistanceEnabled = CreateConVar("sm_gravitygun_default_distance_enable", "1", "Enable (1) or disable (0) default capture distance");
-    g_defaultDistance = CreateConVar("sm_gravitygun_default_distance", "128.0", "Default capture distance, must be at least 64.0");
-    g_defaultDistanceStep = CreateConVar("sm_gravitygun_default_distance_step", "64.0", "Default distance step for increase/decrease");
-    g_defaultThrowSpeed = CreateConVar("sm_gravitygun_default_throw_speed", "1000.0", "Default throw speed");
+    g_captureMode = CreateConVar("sm_gravitygun_capture_mode", "1", "Capture mode (0 - fixed distance, 1 - dynamic distance)");
+    g_captureDistance = CreateConVar("sm_gravitygun_capture_distance", "128.0", "Fixed capture distance, must be at least 64.0");
+    g_captureDistanceStep = CreateConVar("sm_gravitygun_capture_distance_step", "64.0", "Default capture distance step for increase/decrease");
+    g_throwSpeed = CreateConVar("sm_gravitygun_throw_speed", "1000.0", "Default throw speed");
     g_speedFactor = CreateConVar("sm_gravitygun_speed_factor", "5.0", "How fast to move a player");
     g_traceMode = CreateConVar("sm_gravitygun_trace_mode", "1", "Trace mode (0 - line, 1 - cone)");
     g_coneAngle = CreateConVar("sm_gravitygun_cone_angle", "15.0", "Cone angle (in degrees)");
@@ -26,20 +26,20 @@ bool Variable_PluginEnabled() {
     return g_pluginEnabled.IntValue == 1;
 }
 
-bool Variable_DefaultDistanceEnabled() {
-    return g_defaultDistanceEnabled.IntValue == 1;
+int Variable_CaptureMode() {
+    return g_captureMode.IntValue;
 }
 
-float Variable_DefaultDistance() {
-    return g_defaultDistance.FloatValue;
+float Variable_CaptureDistance() {
+    return g_captureDistance.FloatValue;
 }
 
-float Variable_DefaultDistanceStep() {
-    return g_defaultDistanceStep.FloatValue;
+float Variable_CaptureDistanceStep() {
+    return g_captureDistanceStep.FloatValue;
 }
 
-float Variable_DefaultThrowSpeed() {
-    return g_defaultThrowSpeed.FloatValue;
+float Variable_ThrowSpeed() {
+    return g_throwSpeed.FloatValue;
 }
 
 float Variable_SpeedFactor() {

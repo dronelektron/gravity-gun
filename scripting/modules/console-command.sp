@@ -19,7 +19,7 @@ public Action Command_ReleasePlayer(int client, int args) {
 }
 
 public Action Command_ThrowPlayer(int client, int args) {
-    float speed = args == 0 ? Variable_DefaultThrowSpeed() : GetCmdArgFloat(1);
+    float speed = args == 0 ? Variable_ThrowSpeed() : GetCmdArgFloat(1);
 
     UseCase_ThrowPlayer(client, speed);
 
@@ -43,5 +43,5 @@ public Action Command_DecreaseDistance(int client, int args) {
 }
 
 static float Command_GetDistanceStep(int args) {
-    return args == 0 ? Variable_DefaultDistanceStep() : GetCmdArgFloat(1);
+    return args == 0 ? Variable_CaptureDistanceStep() : GetCmdArgFloat(1);
 }
