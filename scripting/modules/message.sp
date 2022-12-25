@@ -14,6 +14,10 @@ void MessagePrint_YouCannotCaptureOwner(int client, int target) {
     PrintToChat(client, "%s%t", PREFIX, "You cannot capture owner", target);
 }
 
+void MessagePrint_TargetHasImmunity(int client, int target) {
+    PrintToChat(client, "%s%t", PREFIX, "Target has immunity", target);
+}
+
 void MessagePrint_NoPlayerToThrow(int client) {
     PrintToChat(client, "%s%t", PREFIX, "No player to throw");
 }

@@ -33,6 +33,12 @@ void UseCase_CapturePlayer(int client) {
         return;
     }
 
+    if (!CanUserTarget(client, target)) {
+        MessagePrint_TargetHasImmunity(client, target);
+
+        return;
+    }
+
     int clientId = GetClientUserId(client);
     float distance = UseCase_GetInitialDistance(client, target);
 
