@@ -2,8 +2,8 @@ static ConVar g_pluginEnabled = null;
 static ConVar g_defaultDistanceEnabled = null;
 static ConVar g_defaultDistance = null;
 static ConVar g_defaultDistanceStep = null;
-static ConVar g_defaultThrowVelocity = null;
-static ConVar g_velocityFactor = null;
+static ConVar g_defaultThrowSpeed = null;
+static ConVar g_speedFactor = null;
 static ConVar g_traceMode = null;
 static ConVar g_coneAngle = null;
 static ConVar g_coneDistance = null;
@@ -14,8 +14,8 @@ void Variable_Create() {
     g_defaultDistanceEnabled = CreateConVar("sm_gravitygun_default_distance_enable", "1", "Enable (1) or disable (0) default capture distance");
     g_defaultDistance = CreateConVar("sm_gravitygun_default_distance", "128.0", "Default capture distance, must be at least 64.0");
     g_defaultDistanceStep = CreateConVar("sm_gravitygun_default_distance_step", "64.0", "Default distance step for increase/decrease");
-    g_defaultThrowVelocity = CreateConVar("sm_gravitygun_default_throw_velocity", "1000.0", "Default throw velocity");
-    g_velocityFactor = CreateConVar("sm_gravitygun_velocity_factor", "5.0", "How fast to move a player");
+    g_defaultThrowSpeed = CreateConVar("sm_gravitygun_default_throw_speed", "1000.0", "Default throw speed");
+    g_speedFactor = CreateConVar("sm_gravitygun_speed_factor", "5.0", "How fast to move a player");
     g_traceMode = CreateConVar("sm_gravitygun_trace_mode", "1", "Trace mode (0 - line, 1 - cone)");
     g_coneAngle = CreateConVar("sm_gravitygun_cone_angle", "15.0", "Cone angle (in degrees)");
     g_coneDistance = CreateConVar("sm_gravitygun_cone_distance", "2048.0", "Cone distance");
@@ -38,12 +38,12 @@ float Variable_DefaultDistanceStep() {
     return g_defaultDistanceStep.FloatValue;
 }
 
-float Variable_DefaultThrowVelocity() {
-    return g_defaultThrowVelocity.FloatValue;
+float Variable_DefaultThrowSpeed() {
+    return g_defaultThrowSpeed.FloatValue;
 }
 
-float Variable_VelocityFactor() {
-    return g_velocityFactor.FloatValue;
+float Variable_SpeedFactor() {
+    return g_speedFactor.FloatValue;
 }
 
 int Variable_TraceMode() {

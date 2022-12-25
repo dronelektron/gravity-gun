@@ -19,9 +19,9 @@ public Action Command_ReleasePlayer(int client, int args) {
 }
 
 public Action Command_ThrowPlayer(int client, int args) {
-    float velocity = args == 0 ? Variable_DefaultThrowVelocity() : GetCmdArgFloat(1);
+    float speed = args == 0 ? Variable_DefaultThrowSpeed() : GetCmdArgFloat(1);
 
-    UseCase_ThrowPlayer(client, velocity);
+    UseCase_ThrowPlayer(client, speed);
 
     return Plugin_Handled;
 }

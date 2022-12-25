@@ -42,12 +42,12 @@ void Message_PlayerReleased(int client, int target) {
     LogMessage("\"%L\" released \"%L\"", client, target);
 }
 
-void Message_PlayerThrown(int client, int target, float velocity) {
+void Message_PlayerThrown(int client, int target, float speed) {
     if (Variable_ShowActivity()) {
-        ShowActivity2(client, PREFIX, "%t", "Player thrown", target, velocity);
+        ShowActivity2(client, PREFIX, "%t", "Player thrown", target, speed);
     } else {
-        PrintToChat(client, "%s%t", PREFIX, "Player thrown", target, velocity);
+        PrintToChat(client, "%s%t", PREFIX, "Player thrown", target, speed);
     }
 
-    LogMessage("\"%L\" threw \"%L\" at a speed of %.2f u/s", client, target, velocity);
+    LogMessage("\"%L\" threw \"%L\" at a speed of %.2f u/s", client, target, speed);
 }

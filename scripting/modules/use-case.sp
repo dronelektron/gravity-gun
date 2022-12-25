@@ -100,7 +100,7 @@ void UseCase_ReleaseTarget(int client) {
     }
 }
 
-void UseCase_ThrowPlayer(int client, float velocity) {
+void UseCase_ThrowPlayer(int client, float speed) {
     int target = Client_GetTarget(client);
 
     if (target == CLIENT_NOT_FOUND) {
@@ -113,8 +113,8 @@ void UseCase_ThrowPlayer(int client, float velocity) {
 
     Client_RemoveTarget(client, target);
     CreateTimer(FLIGHT_TIMER_INTERVAL, UseCaseTimer_PlayerFlight, targetId, FLIGHT_TIMER_FLAGS);
-    UseCase_ApplyForceOnce(client, target, velocity);
-    Message_PlayerThrown(client, target, velocity);
+    UseCase_ApplyForceOnce(client, target, speed);
+    Message_PlayerThrown(client, target, speed);
 }
 
 public Action UseCaseTimer_PlayerRetention(Handle timer, int clientId) {
@@ -168,17 +168,17 @@ public Action UseCaseTimer_PlayerFlight(Handle timer, int targetId) {
 
 void UseCase_ApplyForce(int client, int target) {
     float distance = Client_GetDistance(client);
-    float velocityFactor = Variable_VelocityFactor();
+    float speedFactor = Variable_SpeedFactor();
     float velocity[VECTOR_SIZE];
 
-    Math_CalculateVelocityToDestination(client, target, distance, velocityFactor, velocity);
+    Math_CalculateVelocityToDestination(client, target, distance, speedFactor, velocity);
     TeleportEntity(target, NULL_VECTOR, NULL_VECTOR, velocity);
 }
 
-void UseCase_ApplyForceOnce(int client, int target, float velocity) {
+void UseCase_ApplyForceOnce(int client, int target, float speed) {
     float direction[VECTOR_SIZE];
 
-    Math_CalculateThrowDirection(client, velocity, direction);
+    Math_CalculateThrowDirection(client, speed, direction);
     TeleportEntity(target, NULL_VECTOR, NULL_VECTOR, direction);
 }
 

@@ -1,4 +1,4 @@
-void Math_CalculateVelocityToDestination(int client, int target, float distance, float velocityFactor, float velocity[VECTOR_SIZE]) {
+void Math_CalculateVelocityToDestination(int client, int target, float distance, float speedFactor, float velocity[VECTOR_SIZE]) {
     float clientEyePosition[VECTOR_SIZE];
     float clientEyeAngles[VECTOR_SIZE];
     float clientDirection[VECTOR_SIZE];
@@ -12,15 +12,15 @@ void Math_CalculateVelocityToDestination(int client, int target, float distance,
     ScaleVector(clientDirection, distance);
     AddVectors(clientEyePosition, clientDirection, targetDestination);
     SubtractVectors(targetDestination, targetPosition, velocity);
-    ScaleVector(velocity, velocityFactor);
+    ScaleVector(velocity, speedFactor);
 }
 
-void Math_CalculateThrowDirection(int client, float velocity, float direction[VECTOR_SIZE]) {
+void Math_CalculateThrowDirection(int client, float speed, float direction[VECTOR_SIZE]) {
     float eyeAngles[VECTOR_SIZE];
 
     GetClientEyeAngles(client, eyeAngles);
     GetAngleVectors(eyeAngles, direction, NULL_VECTOR, NULL_VECTOR);
-    ScaleVector(direction, velocity);
+    ScaleVector(direction, speed);
 }
 
 float Math_CalculateDistance(int client, int target) {
