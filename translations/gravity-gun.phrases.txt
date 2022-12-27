@@ -7,7 +7,7 @@
 
     "Invalid observer mode"
     {
-        "en"    "You cannot grab a player in first person"
+        "en"    "You can only capture a player in freecam mode"
     }
 
     "Player already captured"
