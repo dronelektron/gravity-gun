@@ -233,7 +233,7 @@ void UseCase_DecreaseDistance(int client, float step) {
 bool UseCase_IsInvalidObserverMode(int client) {
     int observerMode = GetEntProp(client, Prop_Send, "m_iObserverMode");
 
-    return IsClientObserver(client) && observerMode == OBSERVER_MODE_FIRST_PERSON;
+    return IsClientObserver(client) && observerMode != OBSERVER_MODE_FREE_CAMERA;
 }
 
 void UseCase_RemoveClientSpeedLimit(int client) {
