@@ -78,8 +78,10 @@ int UseCase_FindNearestTargetInCone(int client) {
 
         float angle = Math_CalculateAngleToCone(client, i);
         float distance = Math_CalculateDistance(client, i);
+        bool isTargetInCone = angle < coneAngle && distance < coneDistance;
+        bool isTargetAngleSmaller = angle < targetAngle;
 
-        if (angle <= coneAngle && distance < coneDistance && angle < targetAngle) {
+        if (isTargetInCone && isTargetAngleSmaller) {
             target = i;
             targetAngle = angle;
         }
