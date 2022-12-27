@@ -5,37 +5,7 @@ void UseCase_CapturePlayer(int client) {
 
     int target = UseCase_TraceTarget(client);
 
-    if (target == CLIENT_NOT_FOUND) {
-        MessagePrint_PlayerNotFound(client);
-
-        return;
-    }
-
-    if (UseCase_IsInvalidObserverMode(client)) {
-        MessagePrint_InvalidObserverMode(client);
-
-        return;
-    }
-
-    int owner = Client_GetOwner(target);
-
-    if (owner != CLIENT_NOT_FOUND) {
-        MessagePrint_PlayerAlreadyCaptured(client, target, owner);
-
-        return;
-    }
-
-    bool isClientCapturedByTarget = Client_GetTarget(target) == client;
-
-    if (isClientCapturedByTarget) {
-        MessagePrint_YouCannotCaptureOwner(client, target);
-
-        return;
-    }
-
-    if (!CanUserTarget(client, target)) {
-        MessagePrint_TargetHasImmunity(client, target);
-
+    if (!UseCase_IsTargetCapturable(client, target)) {
         return;
     }
 
@@ -47,6 +17,44 @@ void UseCase_CapturePlayer(int client) {
     UseCase_RemoveClientSpeedLimit(target);
     CreateTimer(RETENTION_TIMER_INTERVAL, UseCaseTimer_PlayerRetention, clientId, RETENTION_TIMER_FLAGS);
     Message_PlayerCaptured(client, target);
+}
+
+bool UseCase_IsTargetCapturable(int client, int target) {
+    if (target == CLIENT_NOT_FOUND) {
+        MessagePrint_PlayerNotFound(client);
+
+        return false;
+    }
+
+    if (UseCase_IsInvalidObserverMode(client)) {
+        MessagePrint_InvalidObserverMode(client);
+
+        return false;
+    }
+
+    int owner = Client_GetOwner(target);
+
+    if (owner != CLIENT_NOT_FOUND) {
+        MessagePrint_PlayerAlreadyCaptured(client, target, owner);
+
+        return false;
+    }
+
+    bool isClientCapturedByTarget = Client_GetTarget(target) == client;
+
+    if (isClientCapturedByTarget) {
+        MessagePrint_YouCannotCaptureOwner(client, target);
+
+        return false;
+    }
+
+    if (!CanUserTarget(client, target)) {
+        MessagePrint_TargetHasImmunity(client, target);
+
+        return false;
+    }
+
+    return true;
 }
 
 int UseCase_TraceTarget(int client) {
