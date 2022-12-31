@@ -221,15 +221,21 @@ void UseCase_RestoreClientSpeedLimit(int client) {
 }
 
 void UseCase_LoadClientSettings(int client) {
-    if (UseCase_IsRealClient(client)) {
+    if (UseCase_IsAdmin(client) && UseCase_IsRealClient(client)) {
         SettingsStorage_Apply(SettingsStorage_LoadClient, client);
     }
 }
 
 void UseCase_SaveClientSettings(int client) {
-    if (UseCase_IsRealClient(client)) {
+    if (UseCase_IsAdmin(client) && UseCase_IsRealClient(client)) {
         SettingsStorage_Apply(SettingsStorage_SaveClient, client);
     }
+}
+
+bool UseCase_IsAdmin(int client) {
+    AdminId id = GetUserAdmin(client);
+
+    return id != INVALID_ADMIN_ID && GetAdminFlag(id, Admin_Generic, Access_Effective);
 }
 
 bool UseCase_IsRealClient(int client) {
