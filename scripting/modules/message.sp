@@ -22,10 +22,6 @@ void MessagePrint_NoPlayerToThrow(int client) {
     PrintToChat(client, "%s%t", PREFIX, "No player to throw");
 }
 
-void MessagePrint_DistanceChanged(int client, float distance) {
-    PrintToChat(client, "%s%t", PREFIX, "Distance changed", distance);
-}
-
 void Message_PlayerCaptured(int client, int target) {
     if (Variable_ShowActivity()) {
         ShowActivity2(client, PREFIX, "%t", "Player captured", target);
@@ -54,4 +50,40 @@ void Message_PlayerThrown(int client, int target, float speed) {
     }
 
     LogMessage("\"%L\" threw \"%L\" at a speed of %.2f u/s", client, target, speed);
+}
+
+void MessageReply_ValueOfParameterInteger(int client, const char[] parameter, int value) {
+    char valueString[PARAMETER_VALUE_MAX_SIZE];
+
+    IntToString(value, valueString, sizeof(valueString));
+    MessageReply_ValueOfParameter(client, parameter, valueString);
+}
+
+void MessageReply_ValueOfParameterFloat(int client, const char[] parameter, float value) {
+    char valueString[PARAMETER_VALUE_MAX_SIZE];
+
+    Format(valueString, sizeof(valueString), "%.2f", value);
+    MessageReply_ValueOfParameter(client, parameter, valueString);
+}
+
+void MessageReply_ValueOfParameter(int client, const char[] parameter, const char[] value) {
+    ReplyToCommand(client, "%s%t", PREFIX, "Value of parameter", parameter, value);
+}
+
+void MessageReply_ValueOfParameterIntegerChanged(int client, const char[] parameter, int value) {
+    char valueString[PARAMETER_VALUE_MAX_SIZE];
+
+    IntToString(value, valueString, sizeof(valueString));
+    MessageReply_ValueOfParameterChanged(client, parameter, valueString);
+}
+
+void MessageReply_ValueOfParameterFloatChanged(int client, const char[] parameter, float value) {
+    char valueString[PARAMETER_VALUE_MAX_SIZE];
+
+    Format(valueString, sizeof(valueString), "%.2f", value);
+    MessageReply_ValueOfParameterChanged(client, parameter, valueString);
+}
+
+void MessageReply_ValueOfParameterChanged(int client, const char[] parameter, const char[] value) {
+    ReplyToCommand(client, "%s%t", PREFIX, "Value of parameter changed", parameter, value);
 }

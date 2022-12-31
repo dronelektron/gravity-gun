@@ -56,4 +56,51 @@
         "#format"   "{1:N},{2:.2f}"
         "en"    "Player {1} is thrown at a speed of {2} u/s"
     }
+
+    "Value of parameter"
+    {
+        "#format"   "{1:t},{2:s}"
+        "en"    "Value of parameter \"{1}\": \"{2}\""
+    }
+
+    "Value of parameter changed"
+    {
+        "#format"   "{1:t},{2:s}"
+        "en"    "Value of parameter \"{1}\" changed to \"{2}\""
+    }
+
+    "Trace mode"
+    {
+        "en"    "Trace mode"
+    }
+
+    "Capture mode"
+    {
+        "en"    "Capture mode"
+    }
+
+    "Distance"
+    {
+        "en"    "Distance"
+    }
+
+    "Speed factor"
+    {
+        "en"    "Speed factor"
+    }
+
+    "Throw speed"
+    {
+        "en"    "Throw speed"
+    }
+
+    "Cone angle"
+    {
+        "en"    "Cone angle"
+    }
+
+    "Cone distance"
+    {
+        "en"    "Cone distance"
+    }
 }
