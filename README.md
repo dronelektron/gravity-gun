@@ -14,6 +14,7 @@ Allows you to grab, move and throw players
 ### Console Variables
 
 * sm_gravitygun_enable - Enable (1) or disable (0) plugin [default: "1"]
+* sm_gravitygun_show_activity - Show (1) or hide (0) admin activity for all players [default: "1"]
 * sm_gravitygun_capture_mode - Capture mode (0 - default distance, 1 - dynamic distance) [default: "1"]
 * sm_gravitygun_capture_distance - Default capture distance [default: "128.0"]
 * sm_gravitygun_capture_distance_step - Default capture distance step for increase/decrease [default: "64.0"]
@@ -22,7 +23,6 @@ Allows you to grab, move and throw players
 * sm_gravitygun_trace_mode - Trace mode (0 - line, 1 - cone) [default: "1"]
 * sm_gravitygun_cone_angle - Cone angle (in degrees) [default: "15.0"]
 * sm_gravitygun_cone_distance - Cone distance [default: "2048.0"]
-* sm_gravitygun_show_activity - Show (1) or hide (0) admin activity for all players [default: "1"]
 
 ### Console Commands
 
