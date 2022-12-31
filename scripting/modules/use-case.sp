@@ -10,14 +10,10 @@ void UseCase_CapturePlayer(int client) {
     }
 
     int clientId = GetClientUserId(client);
-
-    if (Client_GetCaptureMode(client) == CAPTURE_MODE_DYNAMIC) {
-        float distance = Math_CalculateDistance(client, target);
-
-        Client_SetDistance(client, distance);
-    }
+    float distance = UseCase_GetCurrentDistance(client, target);
 
     Client_SetTarget(client, target);
+    Client_SetCurrentDistance(client, distance);
     UseCase_RemoveClientSpeedLimit(target);
     CreateTimer(RETENTION_TIMER_INTERVAL, UseCaseTimer_PlayerRetention, clientId, RETENTION_TIMER_FLAGS);
     Message_PlayerCaptured(client, target);
@@ -92,6 +88,14 @@ int UseCase_FindNearestTargetInCone(int client) {
     }
 
     return target;
+}
+
+float UseCase_GetCurrentDistance(int client, int target) {
+    if (Client_GetCaptureMode(client) == CAPTURE_MODE_STATIC) {
+        return Client_GetDistance(client);
+    }
+
+    return Math_CalculateDistance(client, target);
 }
 
 void UseCase_ReleaseAllTargets() {
@@ -187,7 +191,7 @@ public Action UseCaseTimer_PlayerFlight(Handle timer, int targetId) {
 }
 
 void UseCase_ApplyForce(int client, int target) {
-    float distance = Client_GetDistance(client);
+    float distance = Client_GetCurrentDistance(client);
     float speedFactor = Client_GetSpeedFactor(client);
     float velocity[VECTOR_SIZE];
 

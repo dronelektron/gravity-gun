@@ -1,5 +1,6 @@
 static int g_target[MAXPLAYERS + 1];
 static int g_owner[MAXPLAYERS + 1];
+static float g_currentDistance[MAXPLAYERS + 1];
 static int g_traceMode[MAXPLAYERS + 1];
 static int g_captureMode[MAXPLAYERS + 1];
 static float g_distance[MAXPLAYERS + 1];
@@ -36,6 +37,14 @@ void Client_SetTarget(int client, int target) {
 void Client_RemoveTarget(int client, int target) {
     g_target[client] = CLIENT_NOT_FOUND;
     g_owner[target] = CLIENT_NOT_FOUND;
+}
+
+float Client_GetCurrentDistance(int client) {
+    return g_currentDistance[client];
+}
+
+void Client_SetCurrentDistance(int client, float distance) {
+    g_currentDistance[client] = distance;
 }
 
 int Client_GetTraceMode(int client) {
