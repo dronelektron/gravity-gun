@@ -10,10 +10,14 @@ void UseCase_CapturePlayer(int client) {
     }
 
     int clientId = GetClientUserId(client);
-    float distance = UseCase_GetInitialDistance(client, target);
+
+    if (Client_GetCaptureMode(client) == CAPTURE_MODE_DYNAMIC) {
+        float distance = Math_CalculateDistance(client, target);
+
+        Client_SetDistance(client, distance);
+    }
 
     Client_SetTarget(client, target);
-    Client_SetDistance(client, distance);
     UseCase_RemoveClientSpeedLimit(target);
     CreateTimer(RETENTION_TIMER_INTERVAL, UseCaseTimer_PlayerRetention, clientId, RETENTION_TIMER_FLAGS);
     Message_PlayerCaptured(client, target);
@@ -58,7 +62,7 @@ bool UseCase_IsTargetCapturable(int client, int target) {
 }
 
 int UseCase_TraceTarget(int client) {
-    if (Variable_TraceMode() == TRACE_MODE_LINE) {
+    if (Client_GetTraceMode(client) == TRACE_MODE_LINE) {
         return GetClientAimTarget(client);
     }
 
@@ -68,8 +72,8 @@ int UseCase_TraceTarget(int client) {
 int UseCase_FindNearestTargetInCone(int client) {
     int target = CLIENT_NOT_FOUND;
     float targetAngle = 180.0;
-    float coneAngle = Variable_ConeAngle();
-    float coneDistance = Variable_ConeDistance();
+    float coneAngle = Client_GetConeAngle(client);
+    float coneDistance = Client_GetConeDistance(client);
 
     for (int i = 1; i <= MaxClients; i++) {
         if (!IsClientInGame(i) || !IsPlayerAlive(i) || client == i) {
@@ -184,7 +188,7 @@ public Action UseCaseTimer_PlayerFlight(Handle timer, int targetId) {
 
 void UseCase_ApplyForce(int client, int target) {
     float distance = Client_GetDistance(client);
-    float speedFactor = Variable_SpeedFactor();
+    float speedFactor = Client_GetSpeedFactor(client);
     float velocity[VECTOR_SIZE];
 
     Math_CalculateVelocityToDestination(client, target, distance, speedFactor, velocity);
@@ -196,38 +200,6 @@ void UseCase_ApplyForceOnce(int client, int target, float speed) {
 
     Math_CalculateThrowDirection(client, speed, direction);
     TeleportEntity(target, NULL_VECTOR, NULL_VECTOR, direction);
-}
-
-float UseCase_GetInitialDistance(int client, int target) {
-    if (Variable_CaptureMode() == CAPTURE_MODE_FIXED) {
-        float distance = Variable_CaptureDistance();
-
-        if (distance < DISTANCE_MIN) {
-            distance = DISTANCE_MIN;
-        }
-
-        return distance;
-    }
-
-    return Math_CalculateDistance(client, target);
-}
-
-void UseCase_IncreaseDistance(int client, float step) {
-    float distance = Client_GetDistance(client) + step;
-
-    Client_SetDistance(client, distance);
-    MessagePrint_DistanceChanged(client, distance);
-}
-
-void UseCase_DecreaseDistance(int client, float step) {
-    float distance = Client_GetDistance(client) - step;
-
-    if (distance < DISTANCE_MIN) {
-        distance = DISTANCE_MIN;
-    }
-
-    Client_SetDistance(client, distance);
-    MessagePrint_DistanceChanged(client, distance);
 }
 
 bool UseCase_IsInvalidObserverMode(int client) {
@@ -242,4 +214,20 @@ void UseCase_RemoveClientSpeedLimit(int client) {
 
 void UseCase_RestoreClientSpeedLimit(int client) {
     SetEntityMoveType(client, MOVETYPE_WALK);
+}
+
+void UseCase_LoadClientSettings(int client) {
+    if (UseCase_IsRealClient(client)) {
+        SettingsStorage_Apply(SettingsStorage_LoadClient, client);
+    }
+}
+
+void UseCase_SaveClientSettings(int client) {
+    if (UseCase_IsRealClient(client)) {
+        SettingsStorage_Apply(SettingsStorage_SaveClient, client);
+    }
+}
+
+bool UseCase_IsRealClient(int client) {
+    return !IsFakeClient(client) && !IsClientSourceTV(client);
 }
