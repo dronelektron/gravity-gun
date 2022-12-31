@@ -8,6 +8,10 @@ void SettingsStorage_Apply(StorageOperation operation, int client) {
     KeyValues kv = new KeyValues("Gravity gun");
     char steam[MAX_AUTHID_LENGTH];
 
+    if (FileExists(g_configPath)) {
+        kv.ImportFromFile(g_configPath);
+    }
+
     GetClientAuthId(client, AuthId_Steam3, steam, sizeof(steam));
     Call_StartFunction(INVALID_HANDLE, operation);
     Call_PushCell(kv);
@@ -19,12 +23,6 @@ void SettingsStorage_Apply(StorageOperation operation, int client) {
 }
 
 void SettingsStorage_LoadClient(KeyValues kv, int client, const char[] steam) {
-    if (!FileExists(g_configPath)) {
-        return;
-    }
-
-    kv.ImportFromFile(g_configPath);
-
     if (!kv.JumpToKey(steam)) {
         return;
     }
