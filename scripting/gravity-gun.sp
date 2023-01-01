@@ -3,6 +3,7 @@
 
 #include "gg/client"
 #include "gg/math"
+#include "gg/menu"
 #include "gg/message"
 #include "gg/settings-storage"
 #include "gg/use-case"
@@ -11,6 +12,7 @@
 #include "modules/console-command.sp"
 #include "modules/console-variable.sp"
 #include "modules/math.sp"
+#include "modules/menu.sp"
 #include "modules/message.sp"
 #include "modules/settings-storage.sp"
 #include "modules/use-case.sp"

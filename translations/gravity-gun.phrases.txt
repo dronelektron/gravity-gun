@@ -103,4 +103,29 @@
     {
         "en"    "Cone distance"
     }
+
+    "Gravity gun settings"
+    {
+        "en"    "Gravity gun settings"
+    }
+
+    "Line"
+    {
+        "en"    "Line"
+    }
+
+    "Cone"
+    {
+        "en"    "Cone"
+    }
+
+    "Static"
+    {
+        "en"    "Static"
+    }
+
+    "Dynamic"
+    {
+        "en"    "Dynamic"
+    }
 }

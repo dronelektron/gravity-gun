@@ -10,7 +10,6 @@
 #define PARAMETER_TRACE_MODE "Trace mode"
 #define PARAMETER_CAPTURE_MODE "Capture mode"
 #define PARAMETER_DISTANCE "Distance"
-#define PARAMETER_DISTANCE_STEP "Distance step"
 #define PARAMETER_SPEED_FACTOR "Speed factor"
 #define PARAMETER_THROW_SPEED "Throw speed"
 #define PARAMETER_CONE_ANGLE "Cone angle"
