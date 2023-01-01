@@ -18,6 +18,7 @@ Allows you to grab, move and throw players
 
 ### Console Commands
 
+* sm_gravitygun - Open personal settings menu
 * sm_gravitygun_grab - Grab a player
 * sm_gravitygun_throw [speed] - Throw a player
 
@@ -29,9 +30,19 @@ If you do not specify a `speed`, then the value from `sm_gravitygun_throw_speed`
 * sm_gravitygun_capture_mode [value] - Capture mode (static - 0, dynamic - 1) [default: "1"]
 * sm_gravitygun_distance [value] - Capture distance (min - 64.0, max - 32768.0) [default: "128.0"]
 * sm_gravitygun_speed_factor [value] - How fast to move a player (min - 1.0, max - 10.0) [default: "5.0"]
-* sm_gravitygun_throw_speed [value] - Throw speed (min - 1.0, max - 32768.0) [default: "1024.0"]
-* sm_gravitygun_cone_angle [value] - Cone angle in degrees (min - 1.0, max - 60.0) [default: "15.0"]
+* sm_gravitygun_throw_speed [value] - Throw speed (min - 256.0, max - 32768.0) [default: "1024.0"]
+* sm_gravitygun_cone_angle [value] - Cone angle in degrees (min - 5.0, max - 60.0) [default: "15.0"]
 * sm_gravitygun_cone_distance [value] - Cone distance (min - 64.0, max - 32768.0) [default: "512.0"]
+
+##### Trace Mode
+
+* Static - Grab a player at a distance specified in the console variable `sm_gravitygun_distance`
+* Dynamic - Grab a player at a distance between you and them
+
+##### Capture Mode
+
+* Line - The player who crossed the line will be captured
+* Cone - The player who is inside the cone and who is closer to the crosshair will be captured
 
 ### Notes
 

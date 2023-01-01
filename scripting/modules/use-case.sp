@@ -125,6 +125,10 @@ void UseCase_ReleaseTarget(int client) {
 }
 
 void UseCase_ThrowPlayer(int client, float speed) {
+    if (speed < THROW_SPEED_MIN) {
+        speed = THROW_SPEED_MIN;
+    }
+
     int target = Client_GetTarget(client);
 
     if (target == CLIENT_NOT_FOUND) {

@@ -3,6 +3,7 @@
 
 #include "gg/client"
 #include "gg/math"
+#include "gg/menu"
 #include "gg/message"
 #include "gg/settings-storage"
 #include "gg/use-case"
@@ -11,6 +12,7 @@
 #include "modules/console-command.sp"
 #include "modules/console-variable.sp"
 #include "modules/math.sp"
+#include "modules/menu.sp"
 #include "modules/message.sp"
 #include "modules/settings-storage.sp"
 #include "modules/use-case.sp"
@@ -19,7 +21,7 @@ public Plugin myinfo = {
     name = "Gravity gun",
     author = "Dron-elektron",
     description = "Allows you to grab, move and throw players",
-    version = "1.5.1",
+    version = "1.6.0",
     url = "https://github.com/dronelektron/gravity-gun"
 };
 

@@ -1,4 +1,5 @@
 void Command_Create() {
+    RegAdminCmd("sm_gravitygun", Command_SettingsMenu, ADMFLAG_GENERIC);
     RegAdminCmd("+sm_gravitygun_grab", Command_CapturePlayer, ADMFLAG_GENERIC);
     RegAdminCmd("-sm_gravitygun_grab", Command_ReleasePlayer, ADMFLAG_GENERIC);
     RegAdminCmd("sm_gravitygun_throw", Command_ThrowPlayer, ADMFLAG_GENERIC);
@@ -9,6 +10,12 @@ void Command_Create() {
     RegAdminCmd("sm_gravitygun_throw_speed", Command_ThrowSpeed, ADMFLAG_GENERIC);
     RegAdminCmd("sm_gravitygun_cone_angle", Command_ConeAngle, ADMFLAG_GENERIC);
     RegAdminCmd("sm_gravitygun_cone_distance", Command_ConeDistance, ADMFLAG_GENERIC);
+}
+
+public Action Command_SettingsMenu(int client, int args) {
+    Menu_Settings(client);
+
+    return Plugin_Handled;
 }
 
 public Action Command_CapturePlayer(int client, int args) {
