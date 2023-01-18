@@ -195,7 +195,7 @@ void Menu_ThrowSpeed(int client) {
 
     char info[INFO_MAX_SIZE];
 
-    for (float throwSpeed = THROW_SPEED_MIN; throwSpeed <= THROW_SPEED_MAX; throwSpeed *= 2.0) {
+    for (float throwSpeed = THROW_SPEED_MIN; throwSpeed <= THROW_SPEED_MAX; throwSpeed += 500.0) {
         int throwSpeedInteger = RoundToFloor(throwSpeed);
 
         IntToString(throwSpeedInteger, info, sizeof(info));
